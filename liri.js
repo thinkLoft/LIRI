@@ -1,14 +1,17 @@
 // NPM Modules
 require('dotenv').config();
+var Twitter = require('twitter');
+var Spotify = require('node-spotify-api');
 
 // Credentials
 var keys = require('./keys.js');
 var spotifyKeys = keys.spotify;
 var twitterKeys = keys.twitter;
-
 var command = process.argv[2];
 
-// 10. Make it so liri.js can take in one of the following commands:
+// Third Party Objects
+var client = new Twitter(keys.twitter);
+var spotify = new Spotify(keys.spotify);
 
 //     * `my-tweets`
 
@@ -54,6 +57,10 @@ if (command != undefined) {
 
 function myTweets() {
   console.log(command);
+  client.get('favorites/list', function(error, tweets, response) {
+    if (error) throw error;
+    console.log(tweets); // The favorites.
+  });
 }
 
 // ================================
