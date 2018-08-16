@@ -3,8 +3,8 @@ require('dotenv').config();
 
 // Credentials
 var keys = require('./keys.js');
-var spotify = keys.spotify;
-var twitter = keys.twitter;
+var spotifyKeys = keys.spotify;
+var twitterKeys = keys.twitter;
 
 var command = process.argv[2];
 
@@ -32,22 +32,50 @@ if (command != undefined) {
 
   switch (action) {
     case 'my':
-      // myTweets();
-      console.log('tweets');
+      myTweets();
       break;
     case 'spotify':
-      // spotify(command);
-      console.log('spotify');
+      spotify(command);
       break;
     case 'movie':
-      // movie(command);
-      console.log('movie');
+      movie(command);
       break;
     case 'do':
-      // doWhat(command);
-      console.log('do');
+      doWhat(command);
       break;
   }
 
-  // end of if for userChoice
+  // end of if for command
+}
+
+// ================================
+// ========== My Tweets ===========
+// ================================
+
+function myTweets() {
+  console.log(command);
+}
+
+// ================================
+// =========== Spotify ============
+// ================================
+
+function spotify(x) {
+  console.log(x);
+}
+
+// ================================
+// ============ Movie =============
+// ================================
+
+function movie(x) {
+  console.log(x);
+}
+
+// ================================
+// =========== Do What ============
+// ================================
+
+function doWhat(x) {
+  console.log(x);
 }
