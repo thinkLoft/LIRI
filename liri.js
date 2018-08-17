@@ -56,10 +56,14 @@ if (command != undefined) {
 // ================================
 
 function myTweets() {
-  console.log(command);
+  console.log('My Tweets:');
+  console.log('======================');
   client.get('favorites/list', function(error, tweets, response) {
     if (error) throw error;
-    console.log(tweets); // The favorites.
+
+    for (i = 0; i < tweets.length; i++) {
+      console.log(i + ': ' + tweets[i].user.name + ' - ' + tweets[i].text);
+    }
   });
 }
 
