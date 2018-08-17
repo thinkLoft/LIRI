@@ -2,6 +2,7 @@
 require('dotenv').config();
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
+var request = require('request');
 
 // Credentials
 var keys = require('./keys.js');
@@ -40,10 +41,10 @@ if (command != undefined) {
     case 'spotify-this-song':
       spotifyInfo(userChoice);
       break;
-    case 'movie':
+    case 'movie-this':
       movie(userChoice);
       break;
-    case 'do':
+    case 'do-what-it-says':
       doWhat(userChoice);
       break;
   }
@@ -96,9 +97,49 @@ function spotifyInfo(x) {
 // ================================
 // ============ Movie =============
 // ================================
+//        * Title of the movie.
+//        * Year the movie came out.
+//        * IMDB Rating of the movie.
+//        * Rotten Tomatoes Rating of the movie.
+//        * Country where the movie was produced.
+//        * Language of the movie.
+//        * Plot of the movie.
+//        * Actors in the movie.
 
 function movie(x) {
-  console.log(x);
+  console.log('Movie');
+  console.log('======================');
+  var movie = x;
+
+  request(
+    'http://www.omdbapi.com/?t=' + movie + '&y=&plot=short&apikey=trilogy',
+    function(error, response, body) {
+      // If the request is successful (i.e. if the response status code is 200)
+      if (!error && response.statusCode === 200) {
+        // Parse the body of the site and recover just the imdbRating
+        // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+        console.log('The Title is: ' + JSON.parse(body).Title);
+        console.log('The Year is: ' + JSON.parse(body).Year);
+        console.log('The imdbRating is: ' + JSON.parse(body).imdbRating);
+        console.log('The Country is: ' + JSON.parse(body).Country);
+        console.log('The Language is: ' + JSON.parse(body).Language);
+        console.log('The Plot is: ' + JSON.parse(body).Plot);
+        console.log('The Actors is: ' + JSON.parse(body).Actors);
+        // ============ Needs fixing
+        // for (i = 0; i < JSON.parse(body).Ratings.length; i++) {
+        //   // console.log(JSON.parse(body).Ratings[i].Source);
+        //   if (JSON.parse(body).Ratings[i].Source === 'Rotten Tomatoes') {
+        //     console.log(
+        //       'The ' +
+        //         JSON.parse(body).Ratings[i].Source +
+        //         ' score is: ' +
+        //         JSON.parse(body).Ratings[i].Value
+        //     );
+        //   }
+        // }
+      }
+    }
+  );
 }
 
 // ================================
