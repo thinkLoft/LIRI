@@ -5,9 +5,13 @@ var Spotify = require('node-spotify-api');
 
 // Credentials
 var keys = require('./keys.js');
-var spotifyKeys = keys.spotify;
-var twitterKeys = keys.twitter;
 var command = process.argv[2];
+var userChoice = '';
+
+// Join user choice commands into one string
+for (i = 3; i <= process.argv.length - 1; i++) {
+  userChoice += process.argv[i] + ' ';
+}
 
 // Third Party Objects
 var client = new Twitter(keys.twitter);
@@ -27,24 +31,20 @@ var spotify = new Spotify(keys.spotify);
 
 // Error catching if no command is submitted
 if (command != undefined) {
-  // Create Arrary splitting command
-  var userChoice = command.split('-', 2);
-
   // Capture first command word
-  var action = userChoice[0];
 
-  switch (action) {
-    case 'my':
+  switch (command) {
+    case 'my-tweets':
       myTweets();
       break;
-    case 'spotify':
-      spotifyInfo(command);
+    case 'spotify-this-song':
+      spotifyInfo(userChoice);
       break;
     case 'movie':
-      movie(command);
+      movie(userChoice);
       break;
     case 'do':
-      doWhat(command);
+      doWhat(userChoice);
       break;
   }
 
@@ -72,20 +72,25 @@ function myTweets() {
 // ================================
 
 function spotifyInfo(x) {
-  console.log('Spotify:' + x);
+  console.log('Spotify');
   console.log('======================');
+  var song = x;
 
-  spotify.search(
-    { type: 'track', query: 'All the Small Things', limit: 1 },
-    function(err, data) {
-      if (err) {
-        return console.log('Error occurred: ' + err);
-      }
+  if (song === '') {
+    song = 'All the Small Things';
+  }
 
-      // console.log(data.tracks.items);
-      console.log(data.tracks.items);
+  spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
+    if (err) {
+      return console.log('Error occurred: ' + err);
     }
-  );
+
+    // console.log(data.tracks.items);
+    console.log('Artist: ' + data.tracks.items[0].album.artists[0].name);
+    console.log('Song: ' + data.tracks.items[0].name);
+    console.log('Preview: ' + data.tracks.items[0].preview_url);
+    console.log('Album: ' + data.tracks.items[0].album.name);
+  });
 }
 
 // ================================
