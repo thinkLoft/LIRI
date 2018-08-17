@@ -38,7 +38,7 @@ if (command != undefined) {
       myTweets();
       break;
     case 'spotify':
-      spotify(command);
+      spotifyInfo(command);
       break;
     case 'movie':
       movie(command);
@@ -71,8 +71,21 @@ function myTweets() {
 // =========== Spotify ============
 // ================================
 
-function spotify(x) {
-  console.log(x);
+function spotifyInfo(x) {
+  console.log('Spotify:' + x);
+  console.log('======================');
+
+  spotify.search(
+    { type: 'track', query: 'All the Small Things', limit: 1 },
+    function(err, data) {
+      if (err) {
+        return console.log('Error occurred: ' + err);
+      }
+
+      // console.log(data.tracks.items);
+      console.log(data.tracks.items);
+    }
+  );
 }
 
 // ================================
