@@ -3,28 +3,19 @@ require('dotenv').config();
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var request = require('request');
-
-// Credentials
+var fs = require('fs');
 var keys = require('./keys.js');
+
+// Global variabes
 var command = process.argv[2];
 var userChoice = '';
+var client = new Twitter(keys.twitter);
+var spotify = new Spotify(keys.spotify);
 
 // Join user choice commands into one string
 for (i = 3; i <= process.argv.length - 1; i++) {
   userChoice += process.argv[i] + ' ';
 }
-
-// Third Party Objects
-var client = new Twitter(keys.twitter);
-var spotify = new Spotify(keys.spotify);
-
-//     * `my-tweets`
-
-//   * `spotify-this-song`
-
-//   * `movie-this`
-
-//   * `do-what-it-says`
 
 // ================================
 // ========== Framework ===========
@@ -33,7 +24,6 @@ var spotify = new Spotify(keys.spotify);
 // Error catching if no command is submitted
 if (command != undefined) {
   // Capture first command word
-
   switch (command) {
     case 'my-tweets':
       myTweets();
@@ -45,7 +35,7 @@ if (command != undefined) {
       movie(userChoice);
       break;
     case 'do-what-it-says':
-      doWhat(userChoice);
+      doWhat();
       break;
   }
 
@@ -146,6 +136,37 @@ function movie(x) {
 // =========== Do What ============
 // ================================
 
-function doWhat(x) {
-  console.log(x);
+function doWhat() {
+  // This block of code will read from the "movies.txt" file.
+  // It's important to include the "utf8" parameter or the code will provide stream data (garbage)
+  // The code will store the contents of the reading inside the variable "data"
+  fs.readFile('random.txt', 'utf8', function(error, data) {
+    // If the code experiences any errors it will log the error to the console.
+    if (error) {
+      return console.log(error);
+    }
+
+    // Then split it by commas (to make it more readable)
+    var dataArr = data.split(',');
+    command = dataArr[0];
+    for (i = 1; i <= dataArr.length - 1; i++) {
+      userChoice += dataArr[i] + ' ';
+    }
+
+    // We will then re-display the content as an array for later use.
+    switch (dataArr[0]) {
+      case 'my-tweets':
+        myTweets();
+        break;
+      case 'spotify-this-song':
+        spotifyInfo(userChoice);
+        break;
+      case 'movie-this':
+        movie(userChoice);
+        break;
+      case 'do-what-it-says':
+        doWhat();
+        break;
+    }
+  });
 }
