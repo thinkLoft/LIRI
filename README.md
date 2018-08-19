@@ -11,14 +11,14 @@ The app accepts 4 commands:
 3. "do-what-it-says'                 - Run's command in local random.txt file
 ...
 
-##Installation
+## Installation
 ------------
 
 ``` bash
 $ npm install
 ```
 
-##Packages
+## Packages
 ------------
 - [Twitter](https://www.npmjs.com/package/twitter)
 
@@ -26,12 +26,12 @@ $ npm install
 
 - [Request](https://www.npmjs.com/package/request)
 
-[OMDB API](http://www.omdbapi.com).
+- [OMDB API](http://www.omdbapi.com).
 
 - [DotEnv](https://www.npmjs.com/package/dotenv)
 
 
-##API
+## API
 ---
 - Spotify
 - Twitter
