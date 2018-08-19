@@ -1,0 +1,55 @@
+======================
+The Year is: 2013
+The Title is: The Hunger Games: Catching Fire
+Movie
+The Country is: USA
+The imdbRating is: 7.5
+The Plot is: Katniss Everdeen and Peeta Mellark become targets of the Capitol after their victory in the 74th Hunger Games sparks a rebellion in the Districts of Panem.
+No Ratings Available (NULL)
+======================
+The Language is: English
+The Actors is: Jennifer Lawrence, Liam Hemsworth, Jack Quaid, Taylor St. Clair
+The Title is: Harry Potter and the Deathly Hallows: Part 2
+======================
+======================
+Movie
+The Year is: 2011
+The Country is: USA, UK
+The Plot is: Harry, Ron, and Hermione search for Voldemort's remaining Horcruxes in their effort to destroy the Dark Lord as the final battle rages on at Hogwarts.
+The Actors is: Ralph Fiennes, Michael Gambon, Alan Rickman, Daniel Radcliffe
+The Language is: English
+No Ratings Available (NULL)
+The imdbRating is: 8.1
+======================
+======================
+Movie
+The Year is: 2014
+The imdbRating is: 6.7
+The Language is: English, Spanish
+The Plot is: In a world divided by factions based on virtues, Tris learns she's Divergent and won't fit in. When she discovers a plot to destroy Divergents, Tris and the mysterious Four must find out what makes Divergents dangerous before it's too late.
+The Actors is: Shailene Woodley, Theo James, Ashley Judd, Jai Courtney
+The Title is: Divergent
+The Country is: USA
+No Ratings Available (NULL)
+======================
+Movie
+======================
+The Title is: Divergent
+The Year is: 2014
+The imdbRating is: 6.7
+The Country is: USA
+The Language is: English, Spanish
+The Plot is: In a world divided by factions based on virtues, Tris learns she's Divergent and won't fit in. When she discovers a plot to destroy Divergents, Tris and the mysterious Four must find out what makes Divergents dangerous before it's too late.
+The Actors is: Shailene Woodley, Theo James, Ashley Judd, Jai Courtney
+No Ratings Available (NULL)
+======================
+Movie
+======================
+The Title is: Iron Man
+The Year is: 2008
+The imdbRating is: 7.9
+The Country is: USA
+The Language is: English, Persian, Urdu, Arabic, Hungarian
+The Plot is: After being held captive in an Afghan cave, billionaire engineer Tony Stark creates a unique weaponized suit of armor to fight evil.
+The Actors is: Robert Downey Jr., Terrence Howard, Jeff Bridges, Gwyneth Paltrow
+No Ratings Available (NULL)

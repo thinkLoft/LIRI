@@ -7,10 +7,13 @@ var fs = require('fs');
 var keys = require('./keys.js');
 
 // Global variabes
-var command = process.argv[2];
-var userChoice = '';
 var client = new Twitter(keys.twitter);
 var spotify = new Spotify(keys.spotify);
+var command = process.argv[2];
+var userChoice = '';
+var twitterAns = [];
+var spotifyAns = [];
+var movieAns = [];
 
 // Join user choice commands into one string
 for (i = 3; i <= process.argv.length - 1; i++) {
@@ -47,13 +50,23 @@ if (command != undefined) {
 // ================================
 
 function myTweets() {
-  console.log('My Tweets:');
-  console.log('======================');
   client.get('favorites/list', function(error, tweets, response) {
     if (error) throw error;
 
+    // Finesse
+    twitterAns.push('======================');
+    twitterAns.push('My Favourite Tweets:');
+    twitterAns.push('======================');
+
+    // Parse twitter array reponse
     for (i = 0; i < tweets.length; i++) {
-      console.log(i + ': ' + tweets[i].user.name + ' - ' + tweets[i].text);
+      twitterAns.push(i + ': ' + tweets[i].user.name + ' - ' + tweets[i].text);
+    }
+
+    // Update user and log
+    for (i = 0; i < tweets.length; i++) {
+      console.log(twitterAns[i]);
+      updateLog(twitterAns[i]);
     }
   });
 }
@@ -63,24 +76,33 @@ function myTweets() {
 // ================================
 
 function spotifyInfo(x) {
-  console.log('Spotify');
-  console.log('======================');
   var song = x;
 
+  // Finesse
+  spotifyAns.push('======================');
+  spotifyAns.push('Spotify');
+  spotifyAns.push('======================');
+
+  // If no song selected, run this
   if (song === '') {
-    song = 'All the Small Things';
+    song = 'Never gonna give you up';
   }
 
   spotify.search({ type: 'track', query: song, limit: 1 }, function(err, data) {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
+    // Update Spotify Answer Object with Data
+    spotifyAns.push('Artist: ' + data.tracks.items[0].album.artists[0].name);
+    spotifyAns.push('Song: ' + data.tracks.items[0].name);
+    spotifyAns.push('Preview: ' + data.tracks.items[0].preview_url);
+    spotifyAns.push('Album: ' + data.tracks.items[0].album.name);
 
-    // console.log(data.tracks.items);
-    console.log('Artist: ' + data.tracks.items[0].album.artists[0].name);
-    console.log('Song: ' + data.tracks.items[0].name);
-    console.log('Preview: ' + data.tracks.items[0].preview_url);
-    console.log('Album: ' + data.tracks.items[0].album.name);
+    // Output data to User
+    for (i = 0; i < spotifyAns.length; i++) {
+      console.log(spotifyAns[i]);
+      updateLog(spotifyAns[i]);
+    }
   });
 }
 
@@ -97,36 +119,56 @@ function spotifyInfo(x) {
 //        * Actors in the movie.
 
 function movie(x) {
-  console.log('Movie');
-  console.log('======================');
-  var movie = x;
-
   request(
-    'http://www.omdbapi.com/?t=' + movie + '&y=&plot=short&apikey=trilogy',
+    'http://www.omdbapi.com/?t=' + x + '&y=&plot=short&apikey=trilogy',
     function(error, response, body) {
       // If the request is successful (i.e. if the response status code is 200)
       if (!error && response.statusCode === 200) {
         // Parse the body of the site and recover just the imdbRating
         // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-        console.log('The Title is: ' + JSON.parse(body).Title);
-        console.log('The Year is: ' + JSON.parse(body).Year);
-        console.log('The imdbRating is: ' + JSON.parse(body).imdbRating);
-        console.log('The Country is: ' + JSON.parse(body).Country);
-        console.log('The Language is: ' + JSON.parse(body).Language);
-        console.log('The Plot is: ' + JSON.parse(body).Plot);
-        console.log('The Actors is: ' + JSON.parse(body).Actors);
-        // ============ Needs fixing
-        // for (i = 0; i < JSON.parse(body).Ratings.length; i++) {
-        //   // console.log(JSON.parse(body).Ratings[i].Source);
-        //   if (JSON.parse(body).Ratings[i].Source === 'Rotten Tomatoes') {
-        //     console.log(
-        //       'The ' +
-        //         JSON.parse(body).Ratings[i].Source +
-        //         ' score is: ' +
-        //         JSON.parse(body).Ratings[i].Value
-        //     );
-        //   }
-        // }
+
+        movieAns.push('======================');
+        movieAns.push('Movie');
+        movieAns.push('======================');
+        movieAns.push('The Title is: ' + JSON.parse(body).Title);
+        movieAns.push('The Year is: ' + JSON.parse(body).Year);
+        movieAns.push('The imdbRating is: ' + JSON.parse(body).imdbRating);
+        movieAns.push('The Country is: ' + JSON.parse(body).Country);
+        movieAns.push('The Language is: ' + JSON.parse(body).Language);
+        movieAns.push('The Plot is: ' + JSON.parse(body).Plot);
+        movieAns.push('The Actors is: ' + JSON.parse(body).Actors);
+
+        if (body.Ratings === undefined) {
+          movieAns.push('No Ratings Available (NULL)');
+        } else if (body.Ratings !== 'Rotten Tomatoes') {
+          movieAns.push(
+            'No Rotten Tomato rating available, Here is another: ' +
+              'The ' +
+              JSON.parse(body).Ratings[0].Source +
+              ' score is ' +
+              JSON.parse(body).Ratings[0].Value
+          );
+        } else {
+          for (i = 0; i < JSON.parse(body).Ratings.length; i++) {
+            // console.log(JSON.parse(body).Ratings[i].Source);
+            if (JSON.parse(body).Ratings[i].Source === 'Rotten Tomatoes') {
+              movie.Ans.push(
+                'The ' +
+                  JSON.parse(body).Ratings[i].Source +
+                  ' score is ' +
+                  JSON.parse(body).Ratings[i].Value
+              );
+            }
+          }
+        }
+
+        for (i = 0; i < movieAns.length; i++) {
+          console.log(movieAns[i]);
+        }
+
+        for (i = 0; i < movieAns.length; i++) {
+          updateLog(movieAns[i]);
+        }
       }
     }
   );
@@ -137,9 +179,6 @@ function movie(x) {
 // ================================
 
 function doWhat() {
-  // This block of code will read from the "movies.txt" file.
-  // It's important to include the "utf8" parameter or the code will provide stream data (garbage)
-  // The code will store the contents of the reading inside the variable "data"
   fs.readFile('random.txt', 'utf8', function(error, data) {
     // If the code experiences any errors it will log the error to the console.
     if (error) {
@@ -164,9 +203,18 @@ function doWhat() {
       case 'movie-this':
         movie(userChoice);
         break;
-      case 'do-what-it-says':
-        doWhat();
-        break;
+    }
+  });
+}
+
+// ================================
+// ============= Log ==============
+// ================================
+function updateLog(log) {
+  fs.appendFileSync('log.txt', log + '\n', function(err) {
+    // If the code experiences any errors it will log the error to the console.
+    if (err) {
+      return console.log(err);
     }
   });
 }
